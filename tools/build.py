@@ -41,13 +41,33 @@ class Svg:
         return (f'<text x="{x}" y="{y}" text-anchor="{anchor}" font-family=\'{STACK[font]}\'{weight} '
                 f'font-size="{size}" fill="{fill}"{extra}>{html.escape(s)}</text>')
 
+    _metrics = {}
+
+    def width(self, s, font, size):
+        """Advance width of s in px, from the font's own metrics (no kerning)."""
+        if font not in self._metrics:
+            tt = TTFont(self.fonts_dir / FONT_FILES[font])
+            self._metrics[font] = (tt.getBestCmap(), tt["hmtx"].metrics, tt["head"].unitsPerEm)
+        cmap, hmtx, upm = self._metrics[font]
+        return sum(hmtx.get(cmap.get(ord(ch), ".notdef"), (upm // 2, 0))[0] for ch in s) * size / upm
+
+    def wrap_lines(self, s, font, size, max_w):
+        lines, cur = [], ""
+        for word in s.split():
+            trial = f"{cur} {word}".strip()
+            if cur and self.width(trial, font, size) > max_w:
+                lines.append(cur); cur = word
+            else:
+                cur = trial
+        return lines + [cur] if cur else lines
+
     def font_css(self):
         out = []
         for font, chars in sorted(self.used.items()):
             tt = TTFont(self.fonts_dir / FONT_FILES[font])
-            opts = subset.Options(); opts.flavor = "woff"; opts.layout_features = ["kern", "liga"]
+            opts = subset.Options(); opts.flavor = "woff"; opts.recalc_timestamp = False; opts.layout_features = ["kern", "liga"]
             sub = subset.Subsetter(opts); sub.populate(text="".join(sorted(chars)) + " "); sub.subset(tt)
-            buf = io.BytesIO(); tt.flavor = "woff"; tt.save(buf)
+            buf = io.BytesIO(); tt.flavor = "woff"; tt.recalcTimestamp = False; tt.save(buf)
             b64 = base64.b64encode(buf.getvalue()).decode()
             weight = 700 if font in ("BG", "ISB") else 400
             out.append(f'@font-face{{font-family:"{font}";src:url(data:font/woff;base64,{b64}) format("woff");font-weight:{weight}}}')
@@ -108,6 +128,48 @@ def card(c, mode, fonts):
     return s.wrap(W, H, body, f'{c["title"]}: {c["desc"]}')
 
 
+def timeline(cfg, mode, fonts):
+    """Career as a git-log graph: role = commit on the main rail, achievement = branch commit with
+    Problem / Solution / Result and its result number on the right. Teal only (orange is the banner's)."""
+    t, s, W = THEME[mode], Svg(fonts), 900
+    RAIL, BR, TX, LX, KX = 22, 54, 76, 160, W - 68
+    TEXT_W = 690 - LX
+    parts, y, nodes = [], 24, []
+    for role in cfg["career"]:
+        nodes.append(y)
+        if role.get("head"):
+            parts.append(f'<circle cx="{RAIL}" cy="{y}" r="9" fill="none" stroke="{t["teal"]}" stroke-width="2.5"/>'
+                         f'<circle cx="{RAIL}" cy="{y}" r="4" fill="{t["teal"]}"/>')
+        else:
+            parts.append(f'<circle cx="{RAIL}" cy="{y}" r="7" fill="{t["rail"]}"/>')
+        parts.append(s.text(TX, y - 10, role["when"], "GM", 12.5, t["muted"]))
+        parts.append(s.text(TX, y + 12, role["role"], "BG", 21, t["ink"]))
+        y += 44
+        for it in role["items"]:
+            top = y
+            parts.append(f'<path d="M{RAIL} {top - 22} C{RAIL} {top - 4} {BR} {top - 12} {BR} {top + 6}" fill="none" '
+                         f'stroke="{t["line"]}" stroke-width="2"/>'
+                         f'<circle cx="{BR}" cy="{top + 6}" r="5" fill="{t["card"]}" stroke="{t["teal"]}" stroke-width="2"/>')
+            parts.append(s.text(TX, top + 11, it["title"], "ISB", 16.5, t["ink"]))
+            y = top + 36
+            for label in ("problem", "solution", "result"):
+                lines = s.wrap_lines(it[label], "IS", 14.5, TEXT_W)
+                parts.append(s.text(TX, y, label.upper(), "GM", 11.5, t["teal"] if label == "result" else t["muted"]))
+                for i, ln in enumerate(lines):
+                    parts.append(s.text(LX, y + i * 20, ln, "IS", 14.5, t["ink"] if label == "result" else t["ink2"]))
+                y += 20 * len(lines) + 6
+            if it.get("kpi"):
+                parts.append(s.text(KX, top + 40, it["kpi"], "BG", 40, t["teal"], "end"))
+                parts.append(s.text(KX, top + 62, it["kpi_label"], "GM", 12.5, t["muted"], "end"))
+            y += 22
+        y += 14
+    rail = f'<line x1="{RAIL}" y1="{nodes[0]}" x2="{RAIL}" y2="{nodes[-1]}" stroke="{t["line"]}" stroke-width="2.5"/>'
+    H = y - 10
+    body = f'<rect x=".5" y=".5" width="{W - 1}" height="{H - 1}" rx="14" fill="{t["card"]}" stroke="{t["line"]}"/>' \
+           f'<g transform="translate(20 22)">{rail}{"".join(parts)}</g>'
+    return s.wrap(W, H + 22, body.replace(f'height="{H - 1}"', f'height="{H + 21}"'), "Career: roles, problems solved and results")
+
+
 def picture(name, alt, width):
     return (f'<picture><source media="(prefers-color-scheme: dark)" srcset="assets/{name}-dark.svg">'
             f'<img alt="{html.escape(alt)}" src="assets/{name}-light.svg" width="{width}"></picture>')
@@ -130,6 +192,16 @@ def readme(cfg):
 {cards}
 
 <sub>Every project shows when it was built, the stack used and where its data comes from.</sub>
+
+### Career
+
+{picture("career", "Career timeline, 2018 to now: roles, the problem each piece of work solved, what was built and the result.", "100%")}
+
+<sub>Employers are left out on purpose; roles, years and results are as they happened.</sub>
+
+### Certifications
+
+{" · ".join(cfg["certifications"])}
 """
 
 
@@ -144,6 +216,8 @@ def main():
     for c in cfg["cards"]:
         for mode in THEME:
             (ASSETS / f'card-{c["slug"]}-{mode}.svg').write_text(card(c, mode, fonts), encoding="utf-8")
+    for mode in THEME:
+        (ASSETS / f"career-{mode}.svg").write_text(timeline(cfg, mode, fonts), encoding="utf-8")
     (ROOT / "README.md").write_text(readme(cfg), encoding="utf-8")
     for p in sorted(ASSETS.glob("*.svg")):
         print(f"{p.name:28} {p.stat().st_size / 1024:6.1f} KB")

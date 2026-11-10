@@ -1,7 +1,7 @@
 {
   "name": "Moiz P",
   "site": "https://biwithmoiz.com",
-  "linkedin": "",
+  "linkedin": "https://www.linkedin.com/in/da-moiz-patvi",
   "banner": {
     "kicker": "BI WITH MOIZ · biwithmoiz.com",
     "line1": "Power BI reports,",
@@ -15,7 +15,13 @@
       "title": "power-bi-lab",
       "meta": "PROJECT 01 · NOV 2026",
       "desc": "Reports and demos built as code. First up: Marketing ROI.",
-      "chips": ["PBIP", "TMDL", "DAX", "Deneb", "SVG"],
+      "chips": [
+        "PBIP",
+        "TMDL",
+        "DAX",
+        "Deneb",
+        "SVG"
+      ],
       "repo": "MoizP-AI-Lab/power-bi-lab",
       "stat": "merged_prs",
       "url": "https://github.com/MoizP-AI-Lab/power-bi-lab"
@@ -25,9 +31,97 @@
       "title": "powerbi-theme",
       "meta": "IN PROGRESS · NOV 2026",
       "desc": "The BI with Moiz report theme, light and dark, ready to import.",
-      "chips": ["JSON", "Theme", "Fonts"],
+      "chips": [
+        "JSON",
+        "Theme",
+        "Fonts"
+      ],
       "stat_text": "in power-bi-lab for now",
       "url": "https://github.com/MoizP-AI-Lab/power-bi-lab/tree/main/shared/theme"
     }
+  ],
+  "career": [
+    {
+      "when": "NOV 2026",
+      "role": "BI with Moiz: the public lab opens",
+      "head": true,
+      "items": []
+    },
+    {
+      "when": "2025 – NOW",
+      "role": "Data & Analytics Engineer · Power BI Analyst",
+      "items": [
+        {
+          "kpi": "−91%",
+          "kpi_label": "pipeline sprawl",
+          "title": "Pipeline sprawl, rebuilt as metadata",
+          "problem": "About 350 hand-maintained ADF pipelines and 165 per-client source setups, for 33 clients with 5 channels each.",
+          "solution": "Metadata-driven pipelines: connections, mappings, parameters and run controls moved into reusable config files.",
+          "result": "33 production pipelines on 4 standard source patterns. A new client is now a config change, not new code."
+        },
+        {
+          "kpi": "625",
+          "kpi_label": "reports migrated",
+          "title": "A tenant migration without the manual grind",
+          "problem": "625 reports had to move to a new enterprise tenant, each one deployed and permissioned by hand.",
+          "solution": "A GUI migration and governance app: transfer, workspace mapping, validation and access provisioning.",
+          "result": "625 reports and access for about 80 workspaces moved, with fewer deployment and access errors at cutover."
+        },
+        {
+          "kpi": "600K+",
+          "kpi_label": "records checked",
+          "title": "Data quality before the report, not after",
+          "problem": "Bad source files showed up as broken reports and were fixed one file at a time.",
+          "solution": "Schema validation, source-to-target mapping, duplicate detection and reconciliation ahead of Power BI.",
+          "result": "Fewer report failures and faster fixes on datasets above 600K records."
+        }
+      ]
+    },
+    {
+      "when": "2023 – 2025",
+      "role": "Senior Data & Analytics Engineer (contract)",
+      "items": [
+        {
+          "kpi": "70%",
+          "kpi_label": "faster reports",
+          "title": "Slow executive reports, made fast",
+          "problem": "Finance, sales and operations reporting was scattered, and the executive reports were slow.",
+          "solution": "Model redesign, aggregation tables, query folding and DAX tuning, on governed semantic models with RLS.",
+          "result": "Reports up to 70% faster, with the KPIs in one drillable view for leadership."
+        }
+      ]
+    },
+    {
+      "when": "2019 – 2023",
+      "role": "Data Analyst",
+      "items": [
+        {
+          "title": "From vague requests to numbers people trust",
+          "problem": "Requests arrived vague, and report issues were patched where they showed up.",
+          "solution": "Dimensional models, standard KPI definitions, source-to-report reconciliation and automated data prep.",
+          "result": "Reporting stakeholders relied on, with the business logic written down."
+        }
+      ]
+    },
+    {
+      "when": "2018 – 2019",
+      "role": "Junior Analyst → Data Analyst",
+      "items": [
+        {
+          "title": "SQL first, then Power BI",
+          "problem": "Reports were built on manual source extracts.",
+          "solution": "Reusable SQL queries and views, then Power BI reports, DAX and stable gateway refreshes.",
+          "result": "The start of eight years in Power BI."
+        }
+      ]
+    }
+  ],
+  "certifications": [
+    "Microsoft Certified: Fabric Analytics Engineer Associate",
+    "Microsoft Certified: Power BI Data Analyst Associate",
+    "Microsoft Certified: Azure Data Fundamentals",
+    "Databricks Lakehouse Fundamentals",
+    "IBM Machine Learning with Python",
+    "IBM Data Visualization with Python"
   ]
 }
