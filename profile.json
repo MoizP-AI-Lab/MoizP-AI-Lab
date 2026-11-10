@@ -1,0 +1,33 @@
+{
+  "name": "Moiz P",
+  "site": "https://biwithmoiz.com",
+  "linkedin": "",
+  "banner": {
+    "kicker": "BI WITH MOIZ · biwithmoiz.com",
+    "line1": "Power BI reports,",
+    "line2": "built as code.",
+    "sub": "PBIP · TMDL · DAX · Deneb · SVG · Fabric, on public data, every number checked.",
+    "chart_note": "the one number that matters"
+  },
+  "cards": [
+    {
+      "slug": "lab",
+      "title": "power-bi-lab",
+      "meta": "PROJECT 01 · NOV 2026",
+      "desc": "Reports and demos built as code. First up: Marketing ROI.",
+      "chips": ["PBIP", "TMDL", "DAX", "Deneb", "SVG"],
+      "repo": "MoizP-AI-Lab/power-bi-lab",
+      "stat": "merged_prs",
+      "url": "https://github.com/MoizP-AI-Lab/power-bi-lab"
+    },
+    {
+      "slug": "theme",
+      "title": "powerbi-theme",
+      "meta": "IN PROGRESS · NOV 2026",
+      "desc": "The BI with Moiz report theme, light and dark, ready to import.",
+      "chips": ["JSON", "Theme", "Fonts"],
+      "stat_text": "in power-bi-lab for now",
+      "url": "https://github.com/MoizP-AI-Lab/power-bi-lab/tree/main/shared/theme"
+    }
+  ]
+}
