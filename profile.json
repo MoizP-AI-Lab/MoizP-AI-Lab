@@ -14,7 +14,7 @@
       "slug": "lab",
       "title": "power-bi-lab",
       "meta": "PROJECT 01 · NOV 2026",
-      "desc": "Reports and demos built as code. First up: Marketing ROI.",
+      "desc": "Reports built as code: Marketing ROI, DataDNA Health Systems.",
       "chips": [
         "PBIP",
         "TMDL",
@@ -22,22 +22,9 @@
         "Deneb",
         "SVG"
       ],
-      "repo": "MoizP-AI-Lab/power-bi-lab",
-      "stat": "merged_prs",
-      "url": "https://github.com/MoizP-AI-Lab/power-bi-lab"
-    },
-    {
-      "slug": "theme",
-      "title": "powerbi-theme",
-      "meta": "IN PROGRESS · NOV 2026",
-      "desc": "The BI with Moiz report theme, light and dark, ready to import.",
-      "chips": [
-        "JSON",
-        "Theme",
-        "Fonts"
-      ],
-      "stat_text": "in power-bi-lab for now",
-      "url": "https://github.com/MoizP-AI-Lab/power-bi-lab/tree/main/shared/theme"
+      "url": "https://biwithmoiz.com",
+      "stat_text": "source private",
+      "cta": "See it on biwithmoiz.com →"
     }
   ],
   "career": [
