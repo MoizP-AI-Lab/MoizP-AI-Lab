@@ -124,7 +124,7 @@ def card(c, mode, fonts):
             + s.text(28, 80, c["title"], "BG", 28, t["ink"])
             + s.text(28, 108, c["desc"], "IS", 15.5, t["ink2"])
             + "".join(chips)
-            + s.text(28, 182, "Open the repo →", "ISB", 14, t["teal"]))
+            + s.text(28, 182, c.get("cta", "Open the repo →"), "ISB", 14, t["teal"]))
     return s.wrap(W, H, body, f'{c["title"]}: {c["desc"]}')
 
 
@@ -179,7 +179,6 @@ def readme(cfg):
     links = [f'<a href="{cfg["site"]}">biwithmoiz.com</a>']
     if cfg.get("linkedin"):
         links.append(f'<a href="{cfg["linkedin"]}">LinkedIn</a>')
-    links.append('<a href="https://github.com/MoizP-AI-Lab/power-bi-lab">power-bi-lab</a>')
     cards = "\n".join(f'<a href="{c["url"]}">{picture("card-" + c["slug"], c["title"] + ": " + c["desc"], "49%")}</a>'
                       for c in cfg["cards"])
     b = cfg["banner"]
